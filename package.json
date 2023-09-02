@@ -1,0 +1,29 @@
+{
+  "name": "formo-clean-bot",
+  "version": "1.0.0",
+  "description": "Bot para especificar que parte de la casa debe limpiar cada miembro por semana",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.ts",
+    "knex:init":"knex init",
+    "knex:migration:make": "knex migrate:make migration_name -x ts",
+    "knex:migrate": "knex migrate:latest"
+  },
+  "author": "Mariano Fliri",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "knex": "^2.5.1",
+    "node-schedule": "^2.1.1",
+    "node-telegram-bot-api": "^0.61.0",
+    "objection": "^3.1.1",
+    "pg": "^8.11.3",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/node-schedule": "^2.1.0",
+    "@types/node-telegram-bot-api": "^0.61.7",
+    "nodemon": "^3.0.1"
+  }
+}
