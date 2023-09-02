@@ -1,7 +1,7 @@
+require('dotenv').config()
 import TelegramBot, { Message } from "node-telegram-bot-api";
 import { isStartOfWeek } from "./utils";
 import { runAutomation } from "./automation";
-require('dotenv').config()
 
 
 const bot: TelegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN as string, { polling: true });
