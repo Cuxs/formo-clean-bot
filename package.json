@@ -10,7 +10,8 @@
     "knex:migration:make": "knex migrate:make migration_name -x ts",
     "knex:seed:make": "knex seed:make seed_name",
     "knex:seed:run": "knex seed:run",
-    "knex:migrate": "knex migrate:latest"
+    "knex:migrate": "knex migrate:latest",
+    "knex:migrate:prod": "knex migrate:latest --env production"
   },
   "author": "Mariano Fliri",
   "license": "ISC",
