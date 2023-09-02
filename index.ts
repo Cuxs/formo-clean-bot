@@ -1,8 +1,10 @@
 import TelegramBot, { Message } from "node-telegram-bot-api";
 import { isStartOfWeek } from "./utils";
 import { runAutomation } from "./automation";
+require('dotenv').config()
 
-const bot: TelegramBot = new TelegramBot('6390984952:AAFtRYm9jdZ4ayP2WyzVNwcEz6bz2fjy8vc', { polling: true });
+
+const bot: TelegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN as string, { polling: true });
 
 bot.onText(/\/start/, async (msg: Message) => {
   await bot.sendMessage(msg.chat.id, "Hola locoooo \nTodas las semanitas voy a tirar un mensajito \nDe a quien le toca hacerse cargo de que parte de la casa");

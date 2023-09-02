@@ -6,20 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.ts",
-    "knex:init":"knex init",
+    "knex:init": "knex init",
     "knex:migration:make": "knex migrate:make migration_name -x ts",
+    "knex:seed:make": "knex seed:make seed_name",
+    "knex:seed:run": "knex seed:run",
     "knex:migrate": "knex migrate:latest"
   },
   "author": "Mariano Fliri",
   "license": "ISC",
   "dependencies": {
     "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
     "knex": "^2.5.1",
     "node-schedule": "^2.1.1",
     "node-telegram-bot-api": "^0.61.0",
     "objection": "^3.1.1",
     "pg": "^8.11.3",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/node-schedule": "^2.1.0",
