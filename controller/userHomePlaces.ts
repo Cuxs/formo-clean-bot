@@ -1,7 +1,16 @@
 import { knex } from "../config"
 const { v4: uuidv4 } = require('uuid');
 
-export const insertAssignment = async (row:Record<string,string>)=>{
+type UserHomePlace = {
+  id: number
+  user_id: number,
+  home_place_id: number
+  created_at: string
+  updated_at: string
+  uuid: string
+}
+
+export const insertAssignment = async (row:Record<string,number>)=>{
 const rowsArray = Object.entries(row)
 const uuid = uuidv4()
 const bulkRows = rowsArray.map((result)=>{
@@ -16,7 +25,11 @@ const bulkRows = rowsArray.map((result)=>{
   await knex.batchInsert('users_home_places', bulkRows, 4)
 }
 
-export const getAssignments = async()=>{
+export const getAssignments = async(): Promise<UserHomePlace[]>=>{
   const result = await knex('users_home_places')
-  console.log(result)
+  return result
+}
+export const getLastAssignments = async(): Promise<UserHomePlace[]>=>{
+  const result = await knex('users_home_places').orderBy('id', 'desc').limit(3)
+  return result
 }

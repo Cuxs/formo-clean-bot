@@ -15,5 +15,7 @@ bot.onText(/\/start/, async (msg: Message) => {
   const text = `Como hoy ${isStartOfWeek()? 'es': 'no es'} inicio de semana, ${isStartOfWeek()?'vamos a asignar tareitas.': 'vamos a esperar al lunes para empezar.'}`
   await bot.sendMessage(msg.chat.id, text)
 
-  runAutomation(msg, bot)
+  //user id = (msg.from.id)
+
+  // runAutomation(msg, bot)
 });
