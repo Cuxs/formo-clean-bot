@@ -18,8 +18,9 @@ bot.onText(/\/start/, async (msg: Message) => {
   await bot.sendMessage(msg.chat.id, "Los lugares de la casa son:")
   await bot.sendMessage(msg.chat.id, "- Patio y terraza 🌲🌳 \n- Living escalera y pasillo de arriba 📺 \n- Baños 🚽 🧻\n- Cocina 🔪")
   await bot.sendMessage(msg.chat.id, "Tienen la opcion de usar el comando /quemetoca por si se olvidan")
-  const text = `Como hoy ${isStartOfWeek() ? 'es' : 'no es'} inicio de semana, ${isStartOfWeek() ? 'vamos a asignar tareitas.' : 'vamos a esperar al lunes para empezar.'}`
   if (areUsersReady) {
+    const text = `Tamoo, Como hoy ${isStartOfWeek() ? 'es' : 'no es'} inicio de semana, ${isStartOfWeek() ? 'vamos a asignar tareitas.' : 'vamos a esperar al lunes para empezar.'}`
+    await bot.sendMessage(msg.chat.id,text)
     return runAutomation(msg, bot)
   }else{
     askForUserInfo(bot, msg)

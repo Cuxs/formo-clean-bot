@@ -3,9 +3,9 @@ import TelegramBot, { Message } from "node-telegram-bot-api";
 import { getChores } from './utils';
 
 const rule = new schedule.RecurrenceRule();
-// rule.dayOfWeek = 1;
-rule.hour = 20
-rule.minute = 56;
+rule.dayOfWeek = 1;
+rule.hour = 10
+rule.minute = 3
 
 export function runAutomation(msg: Message, bot: TelegramBot) {
   const job = schedule.scheduleJob(rule, async function () {
