@@ -4,6 +4,8 @@ import { getAllUsers } from './controller/user';
 import { isEqual } from 'lodash'
 import { getAllHomePlaces } from './controller/homePlaces';
 import { getAssignments, getLastAssignments, insertAssignment } from './controller/userHomePlaces';
+import TelegramBot, { Message } from 'node-telegram-bot-api';
+import { USER_READY_MESSAGE } from './config';
 
 
 type AssignmentShuffle = {
@@ -26,12 +28,13 @@ async function shuffle() {
   return users.reduce((prev: AssignmentShuffle, curr) => {
     const maxValue = availablePlaces.length
     const placeRandomIndex = Math.floor(Math.random() * maxValue)
-    prev.names[curr.name] = availablePlaces[placeRandomIndex].name
+    prev.names[curr.telegram_userName] = availablePlaces[placeRandomIndex].name
     prev.ids[curr.id] = availablePlaces[placeRandomIndex].id
     availablePlaces.splice(placeRandomIndex, 1)
     return prev
   }, { names: {}, ids: {} })
 }
+
 export async function getChores() {
   const lastAssignments = await getLastAssignments()
   const lastAssignmentsId = lastAssignments.map((row) => ({ user_id: row.user_id, home_place_id: row.home_place_id }))
@@ -59,4 +62,22 @@ export async function getChores() {
     await insertAssignment(actualAssignments.ids)
     return actualAssignments.names
   }
+}
+
+export async function areAllUsersReady(bot: TelegramBot, msg: Message){
+  const chatMembersCount = await bot.getChatMemberCount(msg.chat.id)
+  const savedUsers = await getAllUsers()
+  if(chatMembersCount - 1 === savedUsers.length){
+    return true
+  }else{
+    return false
+  }
+}
+
+export async function askForUserInfo(bot: TelegramBot, msg: Message){
+  bot.sendMessage(msg.chat.id, "Quien esta? (necesito que todos me digan esto culia)", {
+    "reply_markup": {
+        "keyboard": [[{text: USER_READY_MESSAGE}]]
+    }
+});
 }

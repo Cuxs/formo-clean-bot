@@ -4,4 +4,4 @@ const config = require(`${__dirname}/knexfile.js`)[env];
 
 export const knex = Knex(config)
 
-const INTERVAL_TIME = 1000 * 10 //1000 * 60 * 60 * 5
+export const USER_READY_MESSAGE="¡Sho locoooo!"

@@ -2,7 +2,7 @@
   "name": "formo-clean-bot",
   "version": "1.0.0",
   "description": "Bot para especificar que parte de la casa debe limpiar cada miembro por semana",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.ts",
