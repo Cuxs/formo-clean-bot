@@ -7,8 +7,17 @@ import { getAllUsers, getUserByTelegramUserName, saveUser } from "./controller/u
 import { isEmpty } from "lodash";
 import { getLastAssignments } from "./controller/userHomePlaces";
 import { getHomePlaceById } from "./controller/homePlaces";
+const http = require('http');
+const port = process.env.PORT || 3000;
 
+const server = http.createServer((req: any, res: any) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('');
+});
 
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 const bot: TelegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN as string, { polling: true });
 
 bot.onText(/\/start/, async (msg: Message) => {
