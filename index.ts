@@ -3,7 +3,7 @@ import TelegramBot, { Message } from "node-telegram-bot-api";
 import { areAllUsersReady, askForUserInfo, isStartOfWeek } from "./utils";
 import { runAutomation } from "./automation";
 import { USER_READY_MESSAGE } from "./config";
-import { getUserByTelegramUserName, saveUser } from "./controller/user";
+import { getAllUsers, getUserByTelegramUserName, saveUser } from "./controller/user";
 import { isEmpty } from "lodash";
 import { getLastAssignments } from "./controller/userHomePlaces";
 import { getHomePlaceById } from "./controller/homePlaces";
@@ -19,8 +19,6 @@ bot.onText(/\/start/, async (msg: Message) => {
   await bot.sendMessage(msg.chat.id, "- Patio y terraza 🌲🌳 \n- Living escalera y pasillo de arriba 📺 \n- Baños 🚽 🧻\n- Cocina 🔪")
   await bot.sendMessage(msg.chat.id, "Tienen la opcion de usar el comando /quemetoca por si se olvidan")
   if (areUsersReady) {
-    const text = `Tamoo, Como hoy ${isStartOfWeek() ? 'es' : 'no es'} inicio de semana, ${isStartOfWeek() ? 'vamos a asignar tareitas.' : 'vamos a esperar al lunes para empezar.'}`
-    await bot.sendMessage(msg.chat.id,text)
     return runAutomation(msg, bot)
   }else{
     askForUserInfo(bot, msg)
@@ -33,12 +31,16 @@ bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: Message)=>{
   const userInstance = await getUserByTelegramUserName(msg.from?.id)
 
   if(userToSave && isEmpty(userInstance)){
+    if(!userToSave.username){
+      bot.sendMessage(msg.chat.id, 'No veo que tengas un username para mencionarte capo')
+      return false
+    }
     await saveUser(userToSave)
     const text = `Joyaaa @${msg.from?.username}`
     bot.sendMessage(msg.chat.id, text)
   }
   if(!isEmpty(userInstance)){
-    const text = `Con una vez alcanza capo @${userInstance[0].telegram_userName}`
+    const text = `Con una vez alcanza capoeira @${userInstance[0].telegram_userName}`
     bot.sendMessage(msg.chat.id, text)
   }
   if (areUsersReady) {
@@ -56,4 +58,12 @@ bot.onText(/\/quemetoca/, async (msg: Message) => {
     const text = `A vos guanaco (@${userInstance[0].telegram_userName}) te toca limpiar: ${place.name}`
     await bot.sendMessage(msg.chat.id, text)
   }
+  runAutomation(msg, bot)
+})
+
+bot.onText(/\/haytortitas/, async(msg: Message)=>{
+  const users = await getAllUsers()
+  const userMentions = users.map((row)=>`@${row.telegram_userName} `).join('')
+  const text = `${userMentions} hay tortitas, bajen mamahuevos.`
+  await bot.sendMessage(msg.chat.id, text)
 })
