@@ -1,12 +1,14 @@
 require('dotenv').config()
-import TelegramBot, { Message } from "node-telegram-bot-api";
-import { areAllUsersReady, askForUserInfo, isStartOfWeek } from "./utils";
-import { runAutomation } from "./automation";
-import { USER_READY_MESSAGE } from "./config";
-import { getAllUsers, getUserByTelegramUserName, saveUser } from "./controller/user";
-import { isEmpty } from "lodash";
-import { getLastAssignments } from "./controller/userHomePlaces";
-import { getHomePlaceById } from "./controller/homePlaces";
+const TelegramBot = require("node-telegram-bot-api");
+const { Message } = require("node-telegram-bot-api");
+const { areAllUsersReady, askForUserInfo, isStartOfWeek } = require("./utils");
+const { runAutomation } = require("./automation");
+const { USER_READY_MESSAGE } = require("./config");
+const { getAllUsers, getUserByTelegramUserName, saveUser } = require("./controller/user");
+const { isEmpty } = require("lodash");
+const { getLastAssignments } = require("./controller/userHomePlaces");
+const { getHomePlaceById } = require("./controller/homePlaces");
+
 const http = require('http');
 const port = process.env.PORT || 3000;
 
@@ -18,9 +20,9 @@ const server = http.createServer((req: any, res: any) => {
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-const bot: TelegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN as string, { polling: true });
+const bot: typeof TelegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN as string, { polling: true });
 
-bot.onText(/\/start/, async (msg: Message) => {
+bot.onText(/\/start/, async (msg: typeof Message) => {
   const areUsersReady = await areAllUsersReady(bot, msg)
   await bot.sendMessage(msg.chat.id, "Hola locoooo \nTodas las semanitas voy a tirar un mensajito \nDe a quien le toca hacerse cargo de que parte de la casa");
   await bot.sendMessage(msg.chat.id, "Voy a tratar de que no se repitan y salga variadito");
@@ -34,7 +36,7 @@ bot.onText(/\/start/, async (msg: Message) => {
   }
 });
 
-bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: Message)=>{
+bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: typeof Message)=>{
   const areUsersReady = await areAllUsersReady(bot, msg)
   const userToSave = msg.from
   const userInstance = await getUserByTelegramUserName(msg.from?.id)
@@ -56,7 +58,7 @@ bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: Message)=>{
     return runAutomation(msg, bot)
   }
 })
-bot.onText(/\/quemetoca/, async (msg: Message) => {
+bot.onText(/\/quemetoca/, async (msg: typeof Message) => {
   const userInstance = await getUserByTelegramUserName(msg.from?.id)
   const assignments = await getLastAssignments()
   const assignment = assignments.find((row)=>{
@@ -70,7 +72,7 @@ bot.onText(/\/quemetoca/, async (msg: Message) => {
   runAutomation(msg, bot)
 })
 
-bot.onText(/\/haytortitas/, async(msg: Message)=>{
+bot.onText(/\/haytortitas/, async(msg: typeof Message)=>{
   const users = await getAllUsers()
   const userMentions = users.map((row)=>`@${row.telegram_userName} `).join('')
   const text = `${userMentions} hay tortitas, bajen mamahuevos.`

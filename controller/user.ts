@@ -1,5 +1,6 @@
-import TelegramBot from "node-telegram-bot-api"
-import { knex } from "../config"
+const TelegramBot= require("node-telegram-bot-api")
+const { knex } = require("../config")
+
 
 type User = {
   id: number
@@ -18,7 +19,7 @@ export const getUserByTelegramUserName = async(id?: number) =>{
   return result
 }
 
-export const saveUser = async(from: TelegramBot.User)=>{
+export const saveUser = async(from: typeof TelegramBot.User)=>{
 const result = await knex('users').insert({
   name: from.first_name,
   telegram_userName: from.username,

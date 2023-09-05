@@ -1,6 +1,8 @@
-import schedule from 'node-schedule'
-import TelegramBot, { Message } from "node-telegram-bot-api";
-import { getChores } from './utils';
+const schedule = require('node-schedule');
+const TelegramBot = require("node-telegram-bot-api");
+const { getChores } = require('./utils');
+const { Message } = require('node-telegram-bot-api')
+
 
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = 1;
@@ -11,7 +13,7 @@ const rule2 = new schedule.RecurrenceRule();
 rule2.hour = 9
 rule2.minute = 32
 
-export function runAutomation(msg: Message, bot: TelegramBot) {
+export function runAutomation(msg: typeof Message, bot: typeof TelegramBot) {
   const job = schedule.scheduleJob(rule, async function () {
     await bot.sendMessage(msg.chat.id, 'Bueno, llegó el momento papijas:')
     const chores = await getChores()

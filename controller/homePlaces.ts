@@ -1,4 +1,4 @@
-import { knex } from "../config"
+const { knex } = require("../config")
 
 type HomePlace = {
   id: number

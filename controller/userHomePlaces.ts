@@ -1,4 +1,4 @@
-import { knex } from "../config"
+const { knex } = require("../config")
 const { v4: uuidv4 } = require('uuid');
 
 type UserHomePlace = {
