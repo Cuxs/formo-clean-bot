@@ -1,5 +1,5 @@
-import { User } from "./controller/user";
-import { UserHomePlace } from "./controller/userHomePlaces";
+const { User } = require("./controller/user")
+const { UserHomePlace } = require("./controller/userHomePlaces")
 
 require('dotenv').config()
 const TelegramBot = require("node-telegram-bot-api");
