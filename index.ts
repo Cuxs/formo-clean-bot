@@ -77,7 +77,7 @@ bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: typeof Message)=>{
 bot.onText(/\/quemetoca/, async (msg: typeof Message) => {
   const userInstance = await getUserByTelegramUserName(msg.from?.id)
   const assignments = await getLastAssignments()
-  const assignment = assignments.find((row: UserHomePlace)=>{
+  const assignment = assignments.find((row: typeof UserHomePlace)=>{
     return row.user_id === userInstance[0].id
   })
   if(assignment){
@@ -91,7 +91,7 @@ bot.onText(/\/quemetoca/, async (msg: typeof Message) => {
 
 bot.onText(/\/haytortitas/, async(msg: typeof Message)=>{
   const users = await getAllUsers()
-  const userMentions = users.map((row: User)=>`@${row.telegram_userName} `).join('')
+  const userMentions = users.map((row: typeof User)=>`@${row.telegram_userName} `).join('')
   const text = `${userMentions} hay tortitas, bajen mamahuevos.`
   await bot.sendMessage(msg.chat.id, text)
 })
