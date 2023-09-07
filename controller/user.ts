@@ -2,7 +2,7 @@ const TelegramBot= require("node-telegram-bot-api")
 const { knex } = require("../config")
 
 
-type User = {
+export type User = {
   id: number
   name: string
   telegram_userName: string

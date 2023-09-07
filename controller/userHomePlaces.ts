@@ -1,7 +1,7 @@
 const { knex } = require("../config")
 const { v4: uuidv4 } = require('uuid');
 
-type UserHomePlace = {
+export type UserHomePlace = {
   id: number
   user_id: number,
   home_place_id: number
