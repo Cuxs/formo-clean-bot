@@ -23,6 +23,8 @@ const server = http.createServer((req: any, res: any) => {
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+console.log('TELEGRAM TOKEN:', process.env.TELEGRAM_TOKEN)
 const bot: typeof TelegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN as string, { polling: true });
 
 bot.onText(/\/start/, async (msg: typeof Message) => {

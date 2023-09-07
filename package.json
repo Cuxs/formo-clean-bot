@@ -12,7 +12,8 @@
     "knex:seed:make": "knex seed:make seed_name",
     "knex:seed:run": "knex seed:run",
     "knex:migrate": "knex migrate:latest",
-    "knex:migrate:prod": "knex migrate:latest --env production"
+    "knex:migrate:prod": "knex migrate:latest --env production",
+    "knex:seed:run:prod": "knex seed:run --env production"
   },
   "author": "Mariano Fliri",
   "license": "ISC",

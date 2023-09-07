@@ -1,4 +1,4 @@
-import { UserHomePlace } from "./controller/userHomePlaces"
+const { UserHomePlace } = require("./controller/userHomePlaces")
 
 const { getAllUsers } = require('./controller/user')
 const { isEqual } = require('lodash')
@@ -33,7 +33,7 @@ async function shuffle() {
 
 export async function getChores() {
   const lastAssignments = await getLastAssignments()
-  const lastAssignmentsId = lastAssignments.map((row: UserHomePlace) => ({ user_id: row.user_id, home_place_id: row.home_place_id }))
+  const lastAssignmentsId = lastAssignments.map((row: typeof UserHomePlace) => ({ user_id: row.user_id, home_place_id: row.home_place_id }))
   const actualAssignments = await shuffle()
   const rowsArray = Object.entries(actualAssignments.ids)
   const actualAssignmentsArray = rowsArray.map((result) => ({
@@ -41,7 +41,7 @@ export async function getChores() {
     home_place_id: result[1],
   }))
 
-  const areSomeTaskRepeated = lastAssignmentsId.map((lastRow: UserHomePlace)=>{
+  const areSomeTaskRepeated = lastAssignmentsId.map((lastRow: typeof UserHomePlace)=>{
     const actualRow = actualAssignmentsArray.find((actual)=>{
       return actual.user_id === lastRow.user_id
     })
