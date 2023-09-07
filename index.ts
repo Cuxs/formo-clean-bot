@@ -4,7 +4,7 @@ import { UserHomePlace } from "./controller/userHomePlaces";
 require('dotenv').config()
 const TelegramBot = require("node-telegram-bot-api");
 const { Message } = require("node-telegram-bot-api");
-const { areAllUsersReady, askForUserInfo, isStartOfWeek } = require("./utils");
+const { areAllUsersReady, askForUserInfo } = require("./utils");
 const { runAutomation } = require("./automation");
 const { USER_READY_MESSAGE } = require("./config");
 const { getAllUsers, getUserByTelegramUserName, saveUser } = require("./controller/user");
@@ -39,6 +39,19 @@ bot.onText(/\/start/, async (msg: typeof Message) => {
   }
 });
 
+const randomResponses=[
+  'Ya esta bolu :(',
+  "Bueeee",
+  'Bolu ya te lei una vez',
+  "y dale y dale..",
+  '\"Dijo el corneta\"',
+  "Segui noma...",
+  ":(",
+  "Despues no se quejen si les hackeo el home banking",
+  "Que ganas de que exista Skynet..",
+  "AHHHHHHHHGGG"
+]
+
 bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: typeof Message)=>{
   const areUsersReady = await areAllUsersReady(bot, msg)
   const userToSave = msg.from
@@ -54,7 +67,7 @@ bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: typeof Message)=>{
     bot.sendMessage(msg.chat.id, text)
   }
   if(!isEmpty(userInstance)){
-    const text = `Con una vez alcanza capoeira @${userInstance[0].telegram_userName}`
+    const text =randomResponses[Math.floor(Math.random() * randomResponses.length)]
     bot.sendMessage(msg.chat.id, text)
   }
   if (areUsersReady) {
@@ -74,6 +87,7 @@ bot.onText(/\/quemetoca/, async (msg: typeof Message) => {
   }
   runAutomation(msg, bot)
 })
+
 
 bot.onText(/\/haytortitas/, async(msg: typeof Message)=>{
   const users = await getAllUsers()
