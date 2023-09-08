@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.ts",
+    "start": "tsc index.ts && node index.js",
     "dev": "nodemon index.ts",
     "knex:init": "knex init",
     "knex:migration:make": "knex migrate:make migration_name -x ts",
@@ -13,7 +13,8 @@
     "knex:seed:run": "knex seed:run",
     "knex:migrate": "knex migrate:latest",
     "knex:migrate:prod": "knex migrate:latest --env production",
-    "knex:seed:run:prod": "knex seed:run --env production"
+    "knex:seed:run:prod": "knex seed:run --env production",
+    "ts-show-config":"ts-node --showConfig"
   },
   "author": "Mariano Fliri",
   "license": "ISC",

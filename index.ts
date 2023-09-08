@@ -1,16 +1,15 @@
-const { User } = require("./controller/user")
-const { UserHomePlace } = require("./controller/userHomePlaces")
-
 require('dotenv').config()
-const TelegramBot = require("node-telegram-bot-api");
-const { Message } = require("node-telegram-bot-api");
-const { areAllUsersReady, askForUserInfo } = require("./utils");
-const { runAutomation } = require("./automation");
-const { USER_READY_MESSAGE } = require("./config");
-const { getAllUsers, getUserByTelegramUserName, saveUser } = require("./controller/user");
-const { isEmpty } = require("lodash");
-const { getLastAssignments } = require("./controller/userHomePlaces");
-const { getHomePlaceById } = require("./controller/homePlaces");
+import {User} from "./controller/user"
+import {UserHomePlace} from './controller/userHomePlaces'
+import * as TelegramBotAPI from "node-telegram-bot-api";
+import { areAllUsersReady, askForUserInfo } from "./utils";
+import { runAutomation } from "./automation";
+import { USER_READY_MESSAGE } from "./config";
+import { getAllUsers, getUserByTelegramUserName, saveUser } from "./controller/user";
+import { isEmpty } from "lodash";
+import { getLastAssignments } from "./controller/userHomePlaces";
+import { getHomePlaceById } from "./controller/homePlaces";
+
 
 const http = require('http');
 const port = process.env.PORT || 3000;
@@ -24,10 +23,10 @@ server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-console.log('TELEGRAM TOKEN:', process.env.TELEGRAM_TOKEN)
-const bot: typeof TelegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN as string, { polling: true });
 
-bot.onText(/\/start/, async (msg: typeof Message) => {
+const bot = new TelegramBotAPI(process.env.TELEGRAM_TOKEN as string, { polling: true });
+
+bot.onText(/\/start/, async (msg: TelegramBotAPI.Message) => {
   const areUsersReady = await areAllUsersReady(bot, msg)
   await bot.sendMessage(msg.chat.id, "Hola locoooo \nTodas las semanitas voy a tirar un mensajito \nDe a quien le toca hacerse cargo de que parte de la casa");
   await bot.sendMessage(msg.chat.id, "Voy a tratar de que no se repitan y salga variadito");
@@ -54,7 +53,7 @@ const randomResponses=[
   "AHHHHHHHHGGG"
 ]
 
-bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: typeof Message)=>{
+bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: TelegramBotAPI.Message)=>{
   const areUsersReady = await areAllUsersReady(bot, msg)
   const userToSave = msg.from
   const userInstance = await getUserByTelegramUserName(msg.from?.id)
@@ -76,10 +75,10 @@ bot.onText(new RegExp(USER_READY_MESSAGE),async (msg: typeof Message)=>{
     return runAutomation(msg, bot)
   }
 })
-bot.onText(/\/quemetoca/, async (msg: typeof Message) => {
+bot.onText(/\/quemetoca/, async (msg: TelegramBotAPI.Message) => {
   const userInstance = await getUserByTelegramUserName(msg.from?.id)
   const assignments = await getLastAssignments()
-  const assignment = assignments.find((row: typeof UserHomePlace)=>{
+  const assignment = assignments.find((row: UserHomePlace)=>{
     return row.user_id === userInstance[0].id
   })
   if(assignment){
@@ -91,9 +90,9 @@ bot.onText(/\/quemetoca/, async (msg: typeof Message) => {
 })
 
 
-bot.onText(/\/haytortitas/, async(msg: typeof Message)=>{
+bot.onText(/\/haytortitas/, async(msg: TelegramBotAPI.Message)=>{
   const users = await getAllUsers()
-  const userMentions = users.map((row: typeof User)=>`@${row.telegram_userName} `).join('')
+  const userMentions = users.map((row: User)=>`@${row.telegram_userName} `).join('')
   const text = `${userMentions} hay tortitas, bajen mamahuevos.`
   await bot.sendMessage(msg.chat.id, text)
 })

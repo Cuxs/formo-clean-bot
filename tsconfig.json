@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "outDir": "./.ts-node"
+  },
+  "exclude": ["node_modules"]
+}
