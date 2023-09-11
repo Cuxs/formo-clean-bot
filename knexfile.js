@@ -4,14 +4,9 @@
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 module.exports = {
-
   development: {
-    client: 'postgresql',
-    connection: {
-      database: 'formo_clean',
-      user:     'mariano',
-      password: ''
-    },
+    client: 'pg',
+    connection: "postgres://mariano:123123@localhost:5432/formo_clean",
     pool: {
       min: 2,
       max: 10

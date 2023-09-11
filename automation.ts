@@ -13,6 +13,10 @@ const rule2 = new schedule.RecurrenceRule();
 rule2.hour = 9
 rule2.minute = 32
 
+const rule3 = new schedule.RecurrenceRule();
+rule3.dayOfWeek = 4
+rule3.hour = 23
+
 export function runAutomation(msg: typeof Message, bot: typeof TelegramBot) {
   const job = schedule.scheduleJob(rule, async function () {
     await bot.sendMessage(msg.chat.id, 'Bueno, llegó el momento papijas:')
@@ -22,6 +26,10 @@ export function runAutomation(msg: typeof Message, bot: typeof TelegramBot) {
   });
 
   const job2 = schedule.scheduleJob(rule2, async function() {
-    await bot.sendMessage(msg.chat.id, 'Buen dia pavergas \nEspero que hayan descansado \nY que este dia se acuerden de cerrar las puertas de los baños \nSino les hackeo el home banking \nGracias. ')
+
+  })
+
+  const job3 = schedule.scheduleJob(rule3, async function() {
+    await bot.sendMessage(msg.chat.id, 'Locooo es jueves, dia de sacar la basura (secos) \mLa Basssssura')
   })
 }
