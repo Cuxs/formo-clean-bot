@@ -9,6 +9,7 @@ exports.seed = async function(knex) {
     {id: 1, name: 'Patio y terraza 🌲🌳'},
     {id: 2, name: 'Living 📺 escalera 🪜 y pasillo de arriba 🛋️'},
     {id: 3, name: 'Baños 🚽 🧻'},
-    {id: 4, name: 'Cocina 🍽️'}
+    {id: 4, name: 'Cocina 🍽️'},
+    {id: 5, name: 'Lavanderia 👀 🪣'}
   ]);
 };
