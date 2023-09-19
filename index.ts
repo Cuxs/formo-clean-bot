@@ -4,7 +4,7 @@ import {UserHomePlace} from './controller/userHomePlaces'
 import * as TelegramBotAPI from "node-telegram-bot-api";
 import { areAllUsersReady, askForUserInfo } from "./utils";
 import { runAutomation } from "./automation";
-import { USER_READY_MESSAGE } from "./config";
+import { FILE_ID, USER_READY_MESSAGE } from "./config";
 import { getAllUsers, getUserByTelegramUserName, saveUser } from "./controller/user";
 import { isEmpty } from "lodash";
 import { getLastAssignments } from "./controller/userHomePlaces";
@@ -44,6 +44,8 @@ bot.onText(/\/start/, async (msg: TelegramBotAPI.Message) => {
     askForUserInfo(bot, msg)
   }
 });
+
+const adnRegex = /señor|significa|adn/gi;
 
 const randomResponses=[
   'Ya esta bolu :(',
@@ -100,4 +102,8 @@ bot.onText(/\/haytortitas/, async(msg: TelegramBotAPI.Message)=>{
   const userMentions = users.map((row: User)=>`@${row.telegram_userName} `).join('')
   const text = `${userMentions} hay tortitas, bajen mamahuevos.`
   await bot.sendMessage(msg.chat.id, text)
+})
+
+bot.onText(adnRegex, async(msg: TelegramBotAPI.Message)=>{
+  bot.sendPhoto(msg.chat.id, FILE_ID)
 })
